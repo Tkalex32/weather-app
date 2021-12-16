@@ -11,7 +11,7 @@ const options = {
   month: "long",
   day: "numeric",
 };
-const today = new Date().toLocaleString("hu-HU", options);
+const today = new Date().toLocaleString("en-US", options);
 
 function App() {
   const [query, setQuery] = useState("");
@@ -50,16 +50,24 @@ function App() {
             onKeyPress={search}
           />
         </div>
-        <div className="location-box">
-          <div className="location">
-            {weather.name}, {weather.sys.country}
+        {typeof weather.main != "undefined" ? (
+          <div>
+            <div className="location-box">
+              <div className="location">
+                {weather.name}, {weather.sys.country}
+              </div>
+              <div className="date">{today}</div>
+            </div>
+            <div className="weather-box">
+              <div className="temp">{Math.round(weather.main.temp)}&deg;C</div>
+              <div className="weather">{weather.weather[0].main}</div>
+            </div>
           </div>
-          <div className="date">{today}</div>
-        </div>
-        <div className="weather-box">
-          <div className="temp">{Math.round(weather.main.temp)}&deg;C</div>
-          <div className="weather">{weather.weather[0].main}</div>
-        </div>
+        ) : (
+          <div className="weather-box">
+            <div className="weather">Enter location...</div>
+          </div>
+        )}
       </main>
     </div>
   );
